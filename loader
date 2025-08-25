@@ -1,14 +1,19 @@
-local Starlight = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/starlight"))()  
+print("[ Violet Script ] Load Library")
 
+local Starlight = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/starlight"))()  
 local NebulaIcons = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/nebula-icon-library-loader"))()
 
-local Notifications = Starlight:Notification({
+print("[ Violet Script ] Done Library")
+
+Starlight:Notification({
     Title = "Violet Notification",
-    Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
-    Content = "[ Violet Script ] Will start in 3s",
+    Icon = NebulaIcons:GetIcon("sparkle", "Material"),
+    Content = "[ Violet Script ] Will start in 5s",
 }, "INDEX")
 
-wait(3)
+print("[ Violet Script ] Will start in 5s")
+
+wait(5)
 
 local executorName = identifyexecutor and identifyexecutor() or getexecutorname and getexecutorname() or "Unknown"
 local gameid = game.PlaceId
@@ -17,28 +22,25 @@ local success, SupportGameList = pcall(function()
     return loadstring(game:HttpGet("https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/setting/game-support.lua"))()
 end)
 
+local found = false
+
 if success and type(SupportGameList) == "table" then
-    local found = false
     for _, id in ipairs(SupportGameList) do
-            Starlight:Destroy()
+        if id == gameid then
             found = true
-            local link = "https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/script/" .. gameid .. ".lua" or "https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/script/" .. gameid
+            Starlight:Destroy()
+            local link = "https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/script/" .. gameid .. ".lua"
             loadstring(game:HttpGet(link))()
             break
         end
     end
-    if not found then
-        warn("Game not supported: " .. tostring(gameid))
-        local Notifications = Starlight:Notification({
-            Title = "Violet Notification",
-            Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
-            Content = "[ Violet Script ] Game not supported: " .. tostring(gameid),
-        }, "INDEX")
-    end
-else
-     local Notifications = Starlight:Notification({
+end
+
+if not found then
+    warn("Game not supported: " .. tostring(gameid))
+    Starlight:Notification({
         Title = "Violet Notification",
-        Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
-        Content = "[ Violet Script ] Failed to get game-support.lua",
-     }, "INDEX")
+        Icon = NebulaIcons:GetIcon("sparkle", "Material"),
+        Content = "[ Violet Script ] Game not supported: " .. tostring(gameid),
+    }, "INDEX")
 end
