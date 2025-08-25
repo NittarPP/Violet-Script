@@ -26,11 +26,9 @@ local found = false
 
 if success and type(SupportGameList) == "table" then
     for _, id in ipairs(SupportGameList) do
-        if id == gameid then
+        if tostring(id) == tostring(gameid) then
             found = true
-            Starlight:Destroy()
-            local link = "https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/script/" .. gameid .. ".lua"
-            loadstring(game:HttpGet(link))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/NittarPP/Violet-Script/refs/heads/main/script/" .. game.PlaceId .. ".lua"))()
             break
         end
     end
